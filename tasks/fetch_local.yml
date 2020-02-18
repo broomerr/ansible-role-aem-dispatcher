@@ -1,0 +1,15 @@
+---
+# file: tasks/install.yml
+- name: Copy artifact to destination
+  become: true
+  copy:
+    src: '{{ full_dispatcher_local_transport_link }}'
+    dest: '{{ path_to_modules }}/mod_dispatcher.so'
+    owner: '{{ web_server_user }}'
+    group: '{{ web_server_group }}'
+    mode: 0644
+    # checksum: sha1
+  register: file_downloaded
+  retries: 5
+  delay: 2
+  until: file_downloaded is succeeded

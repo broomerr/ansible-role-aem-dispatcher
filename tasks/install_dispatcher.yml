@@ -12,15 +12,8 @@
     notify:
     - restart apache
 
-  - name: ensure that mod_dispatcher.so is present
-    get_url:
-      url: '{{ ftp_server_link }}'
-      dest: '{{ path_to_modules }}/mod_dispatcher.so'
-      owner: '{{ web_server_user }}'
-      group: '{{ web_server_group }}'
-      mode: 0644
-    notify:
-    - restart apache
+  - name: 'activating transport'
+    include_tasks: 'fetch_{{ download_transport }}.yml'
 
   - name: Allow apache to load module
     sefcontext:
